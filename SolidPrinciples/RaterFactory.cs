@@ -10,20 +10,6 @@ namespace SolidPrinciples
     {
         public Rater Create(Policy policy, RatingEngine engine)
         {
-            //switch (policy.Type)
-            //{
-            //    case PolicyType.Life:
-            //        return new LifePolicyRater(engine, engine.Logger);
-            //    case PolicyType.Flood:
-            //        return new FloodPolicyRater(engine, engine.Logger);
-            //    case PolicyType.Land:
-            //        return new LandPolicyRater(engine, engine.Logger);
-            //    case PolicyType.Auto:
-            //        return new AutoPolicyRater(engine, engine.Logger);
-            //    default:
-            //        return new UnknownPolicyRater(engine, engine.Logger);
-            //}
-
             try
             {
                 //Get the class based on the name provided
@@ -33,7 +19,7 @@ namespace SolidPrinciples
             }
             catch (Exception)
             {
-                return null;
+                return new UnknownPolicyRater(engine, engine.Logger);
             }
         }
     }

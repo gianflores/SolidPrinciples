@@ -13,3 +13,7 @@
 - For example creating a factory to make decisions depending on the type selected. Additional functionality can be extended through the factory by adding another
 instance of the abstract class.
 
+3. Liskov Substitution Principle
+- Subtypes must be substitutable for their base types.
+- For example using a null object pattern instead of checking for null.
+
