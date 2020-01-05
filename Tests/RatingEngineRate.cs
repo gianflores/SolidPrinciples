@@ -8,6 +8,22 @@ namespace Tests
 {
     public class RatingEngineRate
     {
+        private RatingEngine _engine = null;
+        private FakeLogger _logger;
+        private FakePolicySource _policySource;
+        private JsonPolicySerializer _policySerializer;
+        public RatingEngineRate()
+        {
+            _logger = new FakeLogger();
+            _policySource = new FakePolicySource();
+            _policySerializer = new JsonPolicySerializer();
+
+            _engine = new RatingEngine(_logger,
+                _policySource,
+                _policySerializer,
+                new RaterFactory(_logger));
+        }
+
         [Fact]
         public void ReturnsRatingOf10000For200000LandPolicy()
         {
@@ -18,11 +34,10 @@ namespace Tests
                 Valuation = 200000
             };
             string json = JsonConvert.SerializeObject(policy);
-            File.WriteAllText("policy.json", json);
+            _policySource.PolicyString = json;
 
-            var engine = new RatingEngine();
-            engine.Rate();
-            var result = engine.Rating;
+            _engine.Rate();
+            var result = _engine.Rating;
 
             Assert.Equal(10000, result);
         }
@@ -39,11 +54,30 @@ namespace Tests
             string json = JsonConvert.SerializeObject(policy);
             File.WriteAllText("policy.json", json);
 
-            var engine = new RatingEngine();
-            engine.Rate();
-            var result = engine.Rating;
+            _engine.Rate();
+            var result = _engine.Rating;
 
             Assert.Equal(0, result);
+        }
+
+        [Fact]
+        public void LogsStartingLoadingAndCompleting()
+        {
+            var policy = new Policy
+            {
+                Type = "Land",
+                BondAmount = 200000,
+                Valuation = 260000
+            };
+            string json = JsonConvert.SerializeObject(policy);
+            File.WriteAllText("policy.json", json);
+
+            _engine.Rate();
+            var result = _engine.Rating;
+
+            Assert.Contains(_logger.LoggedMessages, m => m == "Starting rate.");
+            Assert.Contains(_logger.LoggedMessages, m => m == "Loading policy.");
+            Assert.Contains(_logger.LoggedMessages, m => m == "Rating completed.");
         }
     }
 }

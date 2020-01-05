@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SolidPrinciples;
 
-namespace SolidPrinciples
+namespace Tests
 {
-    public class FilePolicySource
+    public class FakePolicySource : IPolicySource
     {
+        public string PolicyString { get; set; }
         public string GetPolicyFromSource()
         {
-            return File.ReadAllText("policy.json");
+            return PolicyString;
         }
     }
 }

@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace SolidPrinciples
 {
-    public interface IRatingUpdater
+    public interface IPolicySerializer
     {
-        void UpdateRating(decimal rating);
+        Policy GetPolicyFromString(string policyString);
     }
 }
+

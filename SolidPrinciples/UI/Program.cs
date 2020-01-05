@@ -6,7 +6,9 @@ namespace SolidPrinciples
     {
         static void Main(string[] args)
         {
-            var engine = new RatingEngine();
+            var logger = new FileLogger();
+
+            var engine = new RatingEngine(logger, new FilePolicySource(), new JsonPolicySerializer(), new RaterFactory(logger));
             engine.Rate();
 
             if (engine.Rating > 0)
