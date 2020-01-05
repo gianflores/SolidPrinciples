@@ -17,3 +17,8 @@ instance of the abstract class.
 - Subtypes must be substitutable for their base types.
 - For example using a null object pattern instead of checking for null.
 
+4. Interface Segregation Principle
+- Clients should not be forced to depend on methods they do not use - means break up interfaces into small and cohesive interfaces
+- Prefer small, cohesive interfaces to large fat ones
+- Violating ISP results in classes that depend on things they dont need
+- Mode dependencies means more coupling, more brittle code, more difficult to test

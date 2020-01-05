@@ -11,26 +11,30 @@ namespace SolidPrinciples
 {
     public class RatingEngine
     {
-        public ConsoleLogger Logger { get; set; } = new ConsoleLogger();
-        public FilePolicySource PolicySource { get; set; } = new FilePolicySource();
-        public JsonPolicySerializer PolicySerializer { get; set; } = new JsonPolicySerializer();
+        public IRatingContext Context { get; set; } = new DefaultRatingContext();
         public decimal Rating { get; set; }
+
+        public RatingEngine()
+        {
+            Context.Engine = this;
+        }
+
         public void Rate()
         {
-            Logger.Log("Starting rate.");
+            Context.Log("Starting rate.");
 
-            Logger.Log("Loading policy.");
+            Context.Log("Loading policy.");
 
             // load policy - open file policy.json
-            string policyJson = PolicySource.GetPolicyFromSource();
+            string policyJson = Context.LoadPolicyFromFile();
 
-            var policy = PolicySerializer.GetPolicyFromJsonString(policyJson);
+            var policy = Context.GetPolicyFromJsonString(policyJson);
+            
+            var rater = Context.CreateRaterForPolicy(policy, Context);
 
-            var factory = new RaterFactory();
-            var rater = factory.Create(policy, this);
             rater.Rate(policy);
             
-            Logger.Log("Rating completed.");
+            Context.Log("Rating completed.");
         }
     }
 }

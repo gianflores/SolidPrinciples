@@ -32,7 +32,7 @@ namespace Tests
 
             var result = serializer.GetPolicyFromJsonString(inputJson);
 
-            var policy = new Policy { Type = PolicyType.Auto, Make = "BMW" };
+            var policy = new Policy { Type = "Auto", Make = "BMW" };
             AssertPoliciesEqual(result, policy);
         }
 

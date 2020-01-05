@@ -13,7 +13,7 @@ namespace Tests
         {
             var policy = new Policy
             {
-                Type = PolicyType.Land,
+                Type = "Land",
                 BondAmount = 200000,
                 Valuation = 200000
             };
@@ -32,7 +32,7 @@ namespace Tests
         {
             var policy = new Policy
             {
-                Type = PolicyType.Land,
+                Type = "Land",
                 BondAmount = 200000,
                 Valuation = 260000
             };
